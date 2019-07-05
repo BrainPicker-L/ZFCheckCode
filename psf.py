@@ -1,12 +1,12 @@
-from ZFCheckCode import recognizer
+from ZFCheckCode.ZFCheckCode import recognizer
 import requests
 import re
 from lxml import etree
 from urllib import parse
 import base64
-
-USER = input('username:')
-PASSWORD = input('password:')
+from urllib.parse import quote
+USER = 'Y11614026'#input('username:')
+PASSWORD = 'chenyan520.'#input('password:')
 def identify():
     code = recognizer.recognize_checkcode('./checkcode.png')
     print(code)
@@ -38,8 +38,10 @@ def login(s):
 
     }
 
+    print(data)
+
     r2 = s.post(url="http://jw2.ahu.cn/default2.aspx",headers=headers,data=data)
-    name_chs = re.findall(r'<span id="xhxm">(.*?)同学',r2.content.decode('gb2312'))[0]
+    name_chs = quote(re.findall(r'<span id="xhxm">(.*?)同学',r2.content.decode('gb2312'))[0])
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
         'Referer': 'http://jw2.ahu.cn/xs_main.aspx?xh=%s'%USER,
